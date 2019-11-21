@@ -26,7 +26,7 @@ import fr.d2factory.libraryapp.book.service.DefaultBookRepository;
 import fr.d2factory.libraryapp.exception.BookNotAvailableException;
 import fr.d2factory.libraryapp.exception.BorrowedBookNotFoundExeption;
 import fr.d2factory.libraryapp.exception.HasLateBooksException;
-import fr.d2factory.libraryapp.member.AbstractMember;
+import fr.d2factory.libraryapp.member.Member;
 import fr.d2factory.libraryapp.member.Resident;
 import fr.d2factory.libraryapp.member.Student;
 
@@ -37,10 +37,10 @@ public class LibraryTest {
 	private long isbnCode2 = 3326456467846L;
 	private ISBN isbnObj;
 	private ISBN otherISBN;
-	private AbstractMember residentMember;
-	private AbstractMember studentMember;
-	private AbstractMember firstGradeStudentMember;
-	private List<AbstractMember> membersList;
+	private Member residentMember;
+	private Member studentMember;
+	private Member firstGradeStudentMember;
+	private List<Member> membersList;
 	private Book aBook;
 
 	@Before
@@ -49,9 +49,9 @@ public class LibraryTest {
 		isbnObj = new ISBN(isbnCode);
 		otherISBN = new ISBN(isbnCode2);
 		aBook = new Book("Harry Potter", "J.K. Rowling", isbnObj);
-		residentMember = new Resident("John", "Doe", 0, new HashMap<>());
-		studentMember = new Student("Denzel", "Washington", 0, false, new HashMap<>());
-		firstGradeStudentMember = new Student("Will", "Smith", 0, true, new HashMap<>()  );
+		residentMember = new Resident("johndoe@gmail.com", 0, new HashMap<>());
+		studentMember = new Student("denzelwashington@gmail.com", 0, false, new HashMap<>());
+		firstGradeStudentMember = new Student("willsmith@gmail.com", 0, true, new HashMap<>()  );
 		membersList = new ArrayList<>();
 		membersList.addAll(Arrays.asList(residentMember, studentMember, firstGradeStudentMember));
 		library = new DefaultLibrabry(bookRepository, membersList);

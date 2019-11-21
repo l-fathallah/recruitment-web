@@ -10,15 +10,15 @@ import fr.d2factory.libraryapp.book.service.BookRepository;
 import fr.d2factory.libraryapp.exception.BookNotAvailableException;
 import fr.d2factory.libraryapp.exception.BorrowedBookNotFoundExeption;
 import fr.d2factory.libraryapp.exception.HasLateBooksException;
-import fr.d2factory.libraryapp.member.AbstractMember;
+import fr.d2factory.libraryapp.member.Member;
 import fr.d2factory.libraryapp.member.Member;
 
 public class DefaultLibrabry implements Library {
 
 	private BookRepository bookRepository;
-	private List<AbstractMember> membersList;
+	private List<Member> membersList;
 
-	public DefaultLibrabry(BookRepository bookRepository, List<AbstractMember> membersList) {
+	public DefaultLibrabry(BookRepository bookRepository, List<Member> membersList) {
 		super();
 		this.bookRepository = bookRepository;
 		this.membersList = membersList;
@@ -69,11 +69,11 @@ public class DefaultLibrabry implements Library {
 		this.bookRepository = bookRepository;
 	}
 
-	public List<AbstractMember> getMembersList() {
+	public List<Member> getMembersList() {
 		return membersList;
 	}
 
-	public void setMembersList(List<AbstractMember> membersList) {
+	public void setMembersList(List<Member> membersList) {
 		this.membersList = membersList;
 	}
 

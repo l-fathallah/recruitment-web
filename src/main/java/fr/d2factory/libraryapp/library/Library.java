@@ -7,7 +7,7 @@ import fr.d2factory.libraryapp.book.ISBN;
 import fr.d2factory.libraryapp.exception.BookNotAvailableException;
 import fr.d2factory.libraryapp.exception.BorrowedBookNotFoundExeption;
 import fr.d2factory.libraryapp.exception.HasLateBooksException;
-import fr.d2factory.libraryapp.member.AbstractMember;
+import fr.d2factory.libraryapp.member.Member;
 import fr.d2factory.libraryapp.member.Member;
 
 /**
@@ -30,7 +30,7 @@ public interface Library {
      * @throws BookNotAvailableException 
      *
      * @see fr.d2factory.libraryapp.book.ISBN
-     * @see AbstractMember
+     * @see Member
      */
     Book borrowBook(ISBN isbn, Member member, LocalDate borrowDate) throws HasLateBooksException, BorrowedBookNotFoundExeption, BookNotAvailableException;
 
