@@ -2,34 +2,113 @@ package fr.d2factory.libraryapp.book.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 import fr.d2factory.libraryapp.book.Book;
 import fr.d2factory.libraryapp.book.ISBN;
 import fr.d2factory.libraryapp.exception.BorrowedBookNotFoundExeption;
 import fr.d2factory.libraryapp.member.Member;
 
-public interface BookRepository {
+/**
+ * The book repository emulates a database via 2 HashMaps
+ */
+public class DefaultBookRepository implements BookRepository {
+    private Map<ISBN, Book> availableBooks;
+    private Map<Book, LocalDate> borrowedBooks;
 
-	void addBooks(List<Book> books);
+	public DefaultBookRepository(Map<ISBN, Book> availableBooks, Map<Book, LocalDate> borrowedBooks) {
+		super();
+		this.availableBooks = availableBooks;
+		this.borrowedBooks = borrowedBooks;
+	}
 
+	@Override
+	public void addBooks(List<Book> books){
+    	for (Book book : books) {
+    		getAvailableBooks().put(book.getISBN(), book);
+    	}
+    }
+
+	@Override
+	public Book findBook(ISBN isbnObj) 
+			throws BorrowedBookNotFoundExeption {
+		
+		if (isBookAvailable(isbnObj)) {
+			return getAvailableBooks().get(isbnObj);
+		} else {
+			return findBorrowedBook(isbnObj);
+		}
+    }
+
+	@Override
+	public void saveBookBorrow(Member member, Book book, LocalDate borrowDate){
+    	getBorrowedBooks().put(book, borrowDate);
+    	getAvailableBooks().remove(book.getISBN());
+    }
+    
+	@Override
+	public void saveBookReturned(Book borrowedBook) {
+		borrowedBooks.remove(borrowedBook);
+    	availableBooks.put(borrowedBook.getISBN(), borrowedBook);
+	}
+
+	@Override
+	public LocalDate findBorrowedBookDate(Book book) 
+			throws BorrowedBookNotFoundExeption{
+		
+		Optional<LocalDate> localDate = getBorrowedBooks()
+										.entrySet()
+										.stream()
+										.filter(e -> e.getKey().equals(book))
+										.map(Map.Entry::getValue)
+										.findFirst();
+		if(localDate.isPresent()) {
+			return localDate.get();
+		}
+
+		throw new BorrowedBookNotFoundExeption();
+    }
+	
+	private Book findBorrowedBook(ISBN isbnObj) 
+			throws BorrowedBookNotFoundExeption{
+		
+		Optional<Book> borrowedBook = getBorrowedBooks()
+												.entrySet()
+												.stream()
+												.filter(e -> e.getKey().getISBN().equals(isbnObj))
+												.map(Map.Entry::getKey)
+												.findFirst();
+		if(borrowedBook.isPresent()) {
+			return borrowedBook.get();
+		}
+		
+		throw new BorrowedBookNotFoundExeption();
+	}
+
+	@Override
+	public boolean isBookAvailable(ISBN isbn) {
+		return getAvailableBooks().containsKey(isbn);
+	}
+	
 	/**
-	 * finds a book in the whole repository, borrowed or available
-	 * @param isbnObj the {@link ISBN} of the book to find
-	 * @return the book if it was found, empty otherwise
+	 * Getters and Setters
+	 * @return
 	 */
-	Book findBook(ISBN isbnObj) throws BorrowedBookNotFoundExeption;
+	public Map<ISBN, Book> getAvailableBooks() {
+		return availableBooks;
+	}
 
-	void saveBookBorrow(Member member, Book book, LocalDate borrowDate);
+	public void setAvailableBooks(Map<ISBN, Book> availableBooks) {
+		this.availableBooks = availableBooks;
+	}
+	
+	public void setBorrowedBooks(Map<Book, LocalDate> borrowedBooks) {
+		this.borrowedBooks = borrowedBooks;
+	}
 
-	void saveBookReturned(Book borrowedBook);
-
-	LocalDate findBorrowedBookDate(Book book) throws BorrowedBookNotFoundExeption;
-
-	/**
-	 * Checks if {@link Book is available}
-	 * @param isbn
-	 * @return true if the book is available, false otherwise
-	 */
-	boolean isBookAvailable(ISBN isbn);
+	public Map<Book, LocalDate> getBorrowedBooks() {
+		return borrowedBooks;
+	}
 
 }
