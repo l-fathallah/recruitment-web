@@ -21,8 +21,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.d2factory.libraryapp.book.Book;
 import fr.d2factory.libraryapp.book.ISBN;
+import fr.d2factory.libraryapp.book.service.IBookRepository;
 import fr.d2factory.libraryapp.book.service.BookRepository;
-import fr.d2factory.libraryapp.book.service.DefaultBookRepository;
 import fr.d2factory.libraryapp.exception.BookNotAvailableException;
 import fr.d2factory.libraryapp.exception.BorrowedBookNotFoundExeption;
 import fr.d2factory.libraryapp.exception.HasLateBooksException;
@@ -32,7 +32,7 @@ import fr.d2factory.libraryapp.member.Student;
 
 public class LibraryTest {
 	private Library library;
-	private BookRepository bookRepository;
+	private IBookRepository bookRepository;
 	private long isbnCode = 46578964513L;
 	private long isbnCode2 = 3326456467846L;
 	private ISBN isbnObj;
@@ -45,7 +45,7 @@ public class LibraryTest {
 
 	@Before
 	public void setup() {
-		bookRepository = new DefaultBookRepository(new HashMap<>(), new HashMap<>());
+		bookRepository = new BookRepository(new HashMap<>(), new HashMap<>());
 		isbnObj = new ISBN(isbnCode);
 		otherISBN = new ISBN(isbnCode2);
 		aBook = new Book("Harry Potter", "J.K. Rowling", isbnObj);

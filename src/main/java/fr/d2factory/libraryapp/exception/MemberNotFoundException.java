@@ -6,12 +6,17 @@ public class MemberNotFoundException extends Exception {
 
 	private static final long serialVersionUID = 8861978745957099534L;
 
-	@Override
-	public String getMessage() {
-		// TODO Auto-generated method stub
-		return Constants.MEMBER_NOT_FOUND_EXCEPTION;
+	public MemberNotFoundException(String message) {
+		super(message);
 	}
 	
+	public MemberNotFoundException() {
+		super(Constants.MEMBER_NOT_FOUND_EXCEPTION);
+	}
 	
+	@Override
+	public String getMessage() {
+		return Constants.MEMBER_NOT_FOUND_EXCEPTION_MESSAGE;
+	}
 
 }

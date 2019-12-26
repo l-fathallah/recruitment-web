@@ -1,24 +1,23 @@
 package fr.d2factory.libraryapp.library;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import fr.d2factory.libraryapp.book.Book;
 import fr.d2factory.libraryapp.book.ISBN;
-import fr.d2factory.libraryapp.book.service.BookRepository;
+import fr.d2factory.libraryapp.book.service.IBookRepository;
 import fr.d2factory.libraryapp.exception.BookNotAvailableException;
 import fr.d2factory.libraryapp.exception.BorrowedBookNotFoundExeption;
 import fr.d2factory.libraryapp.exception.HasLateBooksException;
 import fr.d2factory.libraryapp.member.Member;
-import fr.d2factory.libraryapp.member.Member;
+import fr.d2factory.libraryapp.utils.Constants;
 
 public class DefaultLibrabry implements Library {
 
-	private BookRepository bookRepository;
+	private IBookRepository bookRepository;
 	private List<Member> membersList;
 
-	public DefaultLibrabry(BookRepository bookRepository, List<Member> membersList) {
+	public DefaultLibrabry(IBookRepository bookRepository, List<Member> membersList) {
 		super();
 		this.bookRepository = bookRepository;
 		this.membersList = membersList;
@@ -32,9 +31,9 @@ public class DefaultLibrabry implements Library {
 			if (!member.hasLateBooks()) {
 				return performBorrow(isbn, member, borrowDate);
 			}
-			throw new HasLateBooksException();
+			throw new HasLateBooksException(Constants.HAS_LATE_BOOKS_EXCEPTION);
 		}
-		throw new BookNotAvailableException();
+		throw new BookNotAvailableException(Constants.BORROWED_BOOK_NOT_AVAILABLE_EXCEPTION);
 	}
 
 	private Book performBorrow(ISBN isbn, Member member, LocalDate borrowDate) 
@@ -61,11 +60,11 @@ public class DefaultLibrabry implements Library {
 	 * Getters and Setters
 	 * 
 	 */
-	public BookRepository getBookRepository() {
+	public IBookRepository getBookRepository() {
 		return bookRepository;
 	}
 
-	public void setBookRepository(BookRepository bookRepository) {
+	public void setBookRepository(IBookRepository bookRepository) {
 		this.bookRepository = bookRepository;
 	}
 

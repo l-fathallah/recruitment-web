@@ -9,15 +9,16 @@ import fr.d2factory.libraryapp.book.Book;
 import fr.d2factory.libraryapp.book.ISBN;
 import fr.d2factory.libraryapp.exception.BorrowedBookNotFoundExeption;
 import fr.d2factory.libraryapp.member.Member;
+import fr.d2factory.libraryapp.utils.Constants;
 
 /**
  * The book repository emulates a database via 2 HashMaps
  */
-public class DefaultBookRepository implements BookRepository {
+public class BookRepository implements IBookRepository {
     private Map<ISBN, Book> availableBooks;
     private Map<Book, LocalDate> borrowedBooks;
 
-	public DefaultBookRepository(Map<ISBN, Book> availableBooks, Map<Book, LocalDate> borrowedBooks) {
+	public BookRepository(Map<ISBN, Book> availableBooks, Map<Book, LocalDate> borrowedBooks) {
 		super();
 		this.availableBooks = availableBooks;
 		this.borrowedBooks = borrowedBooks;

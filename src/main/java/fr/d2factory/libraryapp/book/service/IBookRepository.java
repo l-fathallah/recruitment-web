@@ -8,7 +8,7 @@ import fr.d2factory.libraryapp.book.ISBN;
 import fr.d2factory.libraryapp.exception.BorrowedBookNotFoundExeption;
 import fr.d2factory.libraryapp.member.Member;
 
-public interface BookRepository {
+public interface IBookRepository {
 
 	void addBooks(List<Book> books);
 

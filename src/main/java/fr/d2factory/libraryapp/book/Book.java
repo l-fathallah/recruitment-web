@@ -46,6 +46,11 @@ public class Book {
 	}
 
 	@Override
+	public int hashCode() {
+		return Objects.hash(author, isbn, title);
+	}
+
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj) {
 			return true;
@@ -56,9 +61,10 @@ public class Book {
 		if (!(obj instanceof Book)) {
 			return false;
 		}
+		
 		Book other = (Book) obj;
-		return Objects.equals(isbn, other.isbn);
+		return Objects.equals(author, other.author) && Objects.equals(isbn, other.isbn)
+				&& Objects.equals(title, other.title);
 	}
-    
     
 }
